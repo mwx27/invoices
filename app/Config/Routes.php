@@ -7,3 +7,4 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/invoices', 'InvoiceController::index');
+$routes->post('/invoices', 'InvoiceController::index');
