@@ -1,10 +1,3 @@
-<?php
-  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      echo "<pre>";
-      print_r($_POST);
-      echo "</pre>";
-    }
-?>
 
 <!DOCTYPE html>
 <html>
@@ -15,8 +8,8 @@
   <body>
 
     <h1>Wystaw nową fakturę</h1>
-
-    <form action="" method="post">
+    
+    <form action="<?php echo current_url(); ?>" method="post">
       
         <label for="client_nip">NIP klienta:</label><br>
         <input type="text" id="client_nip" name="client_nip" required><br><br>
@@ -50,14 +43,18 @@
         <label for="gross_price">Cena brutto:</label><br>
         <input type="text" id="gross_price" name="gross_price" required><br><br>
         
-        <label for="price">Stawka VAT:</label><br>
-        <input type="text" id="price" name="price" required><br><br>
+        <label for="vat_rate">Stawka VAT:</label><br>
+        <input type="text" id="vat_rate" name="vat_rate" required><br><br>
 
         <label for="net_price">Cena netto:</label><br>
         <input type="text" id="net_price" name="net_price" required><br><br>
 
         <button type="submit">Dalej</button>
     </form>
+
+    <?php if (isset($success) && $success): ?>
+      <p style="color:green;">✅ Faktura została zapisana do bazy!</p>
+    <?php endif; ?>
 
   </body>
 </html>
