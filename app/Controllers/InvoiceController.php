@@ -10,30 +10,36 @@ class InvoiceController extends BaseController
 {
     public function index()
     {
+        helper('form');
+
+        $data = [];
+        
         if($this->request->getMethod() === 'POST') {
-            
+
             $model = new InvoiceModel();
 
-            $data = [
-                'client_nip' => $this->request->getPost('client_nip'),
-                'client_name' => $this->request->getPost('client_name'),
-                'client_address' => $this->request->getPost('client_address'),
-                'invoice_number' => $this->request->getPost('invoice_number'),
-                'issue_date' => $this->request->getPost('issue_date'),
-                'sale_date' => $this->request->getPost('sale_date'),
-                'due_date' => $this->request->getPost('due_date'),
-                'invoice_subject' => $this->request->getPost('invoice_subject'),
-                'gross_price' => $this->request->getPost('gross_price'),
-                'vat_rate' => $this->request->getPost('vat_rate'),
-                'net_price' => $this->request->getPost('net_price'),
-            ];
+            $postData = $this->request->getPost([
+                'client_nip',
+                'client_name',
+                'client_address',
+                'invoice_number',
+                'issue_date',
+                'sale_date',
+                'due_date',
+                'invoice_subject',
+                'gross_price',
+                'vat_rate',
+                'net_price',
+            ]);
 
-            if($model->save($data)) {
-                return view('invoices', ['success' => true]);
+            if($model->insert($postData)) {
+                $data['success'] = true;
+            } else {
+                $data['errors'] = $model->errors();
             }
 
         }
 
-        return view('invoices');
+        return view('invoices', $data);
     }
 }

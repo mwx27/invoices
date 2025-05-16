@@ -40,7 +40,19 @@ class InvoiceModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules = [
+        'client_nip' => 'required|exact_length[10]|numeric',
+        'client_name' => 'required|min_length[3]',
+        'client_address' => 'required|min_length[5]',
+        'invoice_number' => 'required|is_unique[invoices.invoice_number]',
+        'issue_date' => 'required|valid_date',
+        'sale_date' => 'required|valid_date',
+        'due_date' => 'required|in_list[7,14,21]',
+        'invoice_subject' => 'required|min_length[3]',
+        'gross_price' => 'required|numeric|greater_than[0]',
+        'vat_rate' => 'required|numeric|greater_than_equal_to[0]|less_than_equal_to[100]',
+        'net_price' => 'required|numeric|greater_than[0]',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
