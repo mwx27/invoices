@@ -33,11 +33,14 @@ class InvoiceController extends BaseController
             ]);
 
             if($model->insert($postData)) {
-                $data['success'] = true;
+                return redirect()->to(current_url())->with('success', true);
             } else {
                 $data['errors'] = $model->errors();
             }
+        }
 
+        if (session()->getFlashdata('success')) {
+            $data['success'] = true;
         }
 
         return view('invoices', $data);
