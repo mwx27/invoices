@@ -13,10 +13,9 @@ class InvoiceController extends BaseController
         helper('form');
 
         $data = [];
+        $model = new InvoiceModel();
         
         if($this->request->getMethod() === 'POST') {
-
-            $model = new InvoiceModel();
 
             $postData = $this->request->getPost([
                 'client_nip',
@@ -42,6 +41,8 @@ class InvoiceController extends BaseController
         if (session()->getFlashdata('success')) {
             $data['success'] = true;
         }
+
+        $data['invoices'] = $model->findAll();
 
         return view('invoices', $data);
     }

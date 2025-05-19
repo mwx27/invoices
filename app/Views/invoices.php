@@ -3,6 +3,16 @@
 <html>
   <head>
       <title>Nowa faktura</title>
+      <style>
+        table {
+          border-collapse: collapse;
+          border: 1px solid black;
+        }
+        th, td {
+          border: 1px solid black;
+          padding: 5px;
+        }
+      </style>
   </head>
 
   <body>
@@ -57,16 +67,53 @@
     <?php endif; ?>
 
     <?php if (isset($errors) && is_array($errors)): ?>
-    <div style="color:red;">
-        <ul>
-            <?php foreach ($errors as $field => $error): ?>
-                <li><strong><?= esc($field) ?>:</strong> <?= esc($error) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endif; ?>
+      <div style="color:red;">
+          <ul>
+              <?php foreach ($errors as $field => $error): ?>
+                  <li><strong><?= esc($field) ?>:</strong> <?= esc($error) ?></li>
+              <?php endforeach; ?>
+          </ul>
+      </div>
+    <?php endif; ?>
 
 
+    <?php if (!empty($invoices)): ?>
+      <h2>Wystawione faktury:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NIP</th>
+            <th>Nazwa klienta</th>
+            <th>Numer faktury</th>
+            <th>Data wystawienia</th>
+            <th>Data sprzedaży</th>
+            <th>Termin płatności</th>
+            <th>Przedmiot</th>
+            <th>Netto</th>
+            <th>VAT</th>
+            <th>Brutto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($invoices as $invoice): ?>
+            <tr>
+              <td><?= esc($invoice['client_nip'])?></td>
+              <td><?= esc($invoice['client_name'])?></td>
+              <td><?= esc($invoice['client_address'])?></td>
+              <td><?= esc($invoice['invoice_number'])?></td>
+              <td><?= esc($invoice['issue_date'])?></td>
+              <td><?= esc($invoice['sale_date'])?></td>
+              <td><?= esc($invoice['due_date'])?> dni</td>
+              <td><?= esc($invoice['invoice_subject'])?></td>
+              <td><?= esc($invoice['gross_price'])?> zł</td>
+              <td><?= esc($invoice['vat_rate'])?> zł</td>
+              <td><?= esc($invoice['net_price'])?> zł</td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
 
   </body>
 </html>
