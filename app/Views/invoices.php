@@ -83,8 +83,9 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>NIP</th>
             <th>Nazwa klienta</th>
+            <th>Adres klienta</th>
+            <th>NIP</th>
             <th>Numer faktury</th>
             <th>Data wystawienia</th>
             <th>Data sprzedaży</th>
@@ -99,9 +100,10 @@
         <tbody>
           <?php foreach ($invoices as $invoice): ?>
             <tr>
-              <td><?= esc($invoice['client_nip'])?></td>
+              <td><?= esc($invoice['id'])?></td>
               <td><?= esc($invoice['client_name'])?></td>
               <td><?= esc($invoice['client_address'])?></td>
+              <td><?= esc($invoice['client_nip'])?></td>
               <td><?= esc($invoice['invoice_number'])?></td>
               <td><?= esc($invoice['issue_date'])?></td>
               <td><?= esc($invoice['sale_date'])?></td>

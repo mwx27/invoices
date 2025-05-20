@@ -42,7 +42,7 @@ class InvoiceController extends BaseController
             $data['success'] = true;
         }
 
-        $data['invoices'] = $model->findAll();
+        $data['invoices'] = $model->orderBy('created_at', 'DESC')->findAll();
 
         return view('invoices', $data);
     }
@@ -78,7 +78,7 @@ class InvoiceController extends BaseController
     public function getInvoicesAsXml()
     {
         $model = new InvoiceModel();
-        $invoices = $model->findAll();
+        $invoices = $model->orderBy('created_at', 'DESC')->findAll();
 
         $xml = new \SimpleXMLElement('<invoices/>');
 
