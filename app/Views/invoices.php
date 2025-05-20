@@ -112,9 +112,10 @@
               <td><?= esc($invoice['net_price'])?> zł</td>
               <td><a href="<?= site_url('invoices/xml/' . $invoice['id']) ?>" target="_blank">Zobacz XML</a></td>
             </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+        <h3><a href="<?= site_url('invoices/xml/') ?>" target="_blank">Zobacz wszystkie faktury w XML</a></h3>
     <?php endif; ?>
 
   </body>

@@ -57,10 +57,38 @@ class InvoiceController extends BaseController
         }
     
         $xml = new \SimpleXMLElement('<invoice/>');
-        foreach ($invoice as $key => $value) {
-            $xml->addChild($key, htmlspecialchars($value));
-        }
+        $xml->addChild('client_nip', esc($invoice['client_nip']));
+        $xml->addChild('client_name', esc($invoice['client_name']));
+        $xml->addChild('client_address', esc($invoice['client_address']));
+        $xml->addChild('invoice_number', esc($invoice['invoice_number']));
+        $xml->addChild('issue_date', esc($invoice['issue_date']));
+        $xml->addChild('sale_date', esc($invoice['sale_date']));
+        $xml->addChild('due_date', esc($invoice['due_date']));
+        $xml->addChild('invoice_subject', esc($invoice['invoice_subject']));
+        $xml->addChild('gross_price', esc($invoice['gross_price']));
+        $xml->addChild('vat_rate', esc($invoice['vat_rate']));
+        $xml->addChild('net_price', esc($invoice['net_price']));
+
     
+        return $this->response
+            ->setContentType('application/xml')
+            ->setBody($xml->asXML());
+    }
+
+    public function getInvoicesAsXml()
+    {
+        $model = new InvoiceModel();
+        $invoices = $model->findAll();
+
+        $xml = new \SimpleXMLElement('<invoices/>');
+
+        foreach ($invoices as $invoice) {
+            $invoiceNode = $xml->addChild('invoice');
+
+            foreach ($invoice as $key => $value) {
+                $invoiceNode->addChild($key, esc($value));
+            }
+        }
         return $this->response
             ->setContentType('application/xml')
             ->setBody($xml->asXML());
