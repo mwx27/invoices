@@ -47,6 +47,7 @@ class InvoiceController extends BaseController
         return view('invoices', $data);
     }
 
+
     public function getInvoiceAsXml($id)
     {
         $model = new \App\Models\InvoiceModel();
@@ -75,6 +76,7 @@ class InvoiceController extends BaseController
             ->setBody($xml->asXML());
     }
 
+    
     public function getInvoicesAsXml()
     {
         $model = new InvoiceModel();
@@ -93,5 +95,49 @@ class InvoiceController extends BaseController
             ->setContentType('application/xml')
             ->setBody($xml->asXML());
     }
+
+
+    public function updateInvoice($id) {
+
+        helper('form');
+        $model = new InvoiceModel();
+        $invoice = $model->find($id);
+        
+        if (!$invoice) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Faktura o ID $id nie istnieje");
+        }
+        
+        $postData = $this->request->getPost([
+            'client_nip',
+            'client_name',
+            'client_address',
+            'invoice_number',
+            'issue_date',
+            'sale_date',
+            'due_date',
+            'invoice_subject',
+            'gross_price',
+            'vat_rate',
+            'net_price',
+        ]);
+
+        $model->setValidationRule('invoice_number', 'required|is_unique[invoices.invoice_number,id,' . $id . ']');
+
+        if ($model->update($id, $postData)) {
+            return redirect()->to(site_url('invoices'))->with('success', true);
+        } else {
+            $errors = $model->errors();
+            $invoices = $model->orderBy('created_at', 'DESC')->findAll();
+
+            return view('invoices', [
+                'invoices' => $invoices,
+                'errors' => $errors,
+                'edit_id' => $id,
+                'edit_data' => $postData + $invoice,
+            ]);
+        }
+
+    }
+
 
 }

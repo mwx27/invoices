@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,6 +10,10 @@
         th, td {
           border: 1px solid black;
           padding: 5px;
+        }
+        td input {
+          width: 100%;
+          box-sizing: border-box;
         }
       </style>
   </head>
@@ -66,7 +69,7 @@
       <p style="color:green;">✅ Faktura została zapisana do bazy!</p>
     <?php endif; ?>
 
-    <?php if (isset($errors) && is_array($errors)): ?>
+    <?php if (!isset($edit_id) && isset($errors) && is_array($errors)): ?>
       <div style="color:red;">
           <ul>
               <?php foreach ($errors as $field => $error): ?>
@@ -95,29 +98,69 @@
             <th>VAT</th>
             <th>Brutto</th>
             <th>XML</th>
+            <th>Edycja</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($invoices as $invoice): ?>
             <tr>
-              <td><?= esc($invoice['id'])?></td>
-              <td><?= esc($invoice['client_name'])?></td>
-              <td><?= esc($invoice['client_address'])?></td>
-              <td><?= esc($invoice['client_nip'])?></td>
-              <td><?= esc($invoice['invoice_number'])?></td>
-              <td><?= esc($invoice['issue_date'])?></td>
-              <td><?= esc($invoice['sale_date'])?></td>
-              <td><?= esc($invoice['due_date'])?> dni</td>
-              <td><?= esc($invoice['invoice_subject'])?></td>
-              <td><?= esc($invoice['gross_price'])?> zł</td>
-              <td><?= esc($invoice['vat_rate'])?> zł</td>
-              <td><?= esc($invoice['net_price'])?> zł</td>
-              <td><a href="<?= site_url('invoices/xml/' . $invoice['id']) ?>" target="_blank">Zobacz XML</a></td>
+              <?php if ((isset($edit_id) && $edit_id == $invoice['id']) || (isset($_GET['edit']) && $_GET['edit'] == $invoice['id'])): ?>
+                <form action="<?= site_url('invoices/update/' . $invoice['id']) ?>" method="post">
+                  <td><?= esc($invoice['id']) ?></td>
+                  <td><input type="text" name="client_name" value="<?= esc($edit_data['client_name'] ?? $invoice['client_name']) ?>"></td>
+                  <td><input type="text" name="client_address" value="<?= esc($edit_data['client_address'] ?? $invoice['client_address']) ?>"></td>
+                  <td><input type="text" name="client_nip" value="<?= esc($edit_data['client_nip'] ?? $invoice['client_nip']) ?>"></td>
+                  <td><input type="text" name="invoice_number" value="<?= esc($edit_data['invoice_number'] ?? $invoice['invoice_number']) ?>"></td>
+                  <td><input type="date" name="issue_date" value="<?= esc($edit_data['issue_date'] ?? $invoice['issue_date']) ?>"></td>
+                  <td><input type="date" name="sale_date" value="<?= esc($edit_data['sale_date'] ?? $invoice['sale_date']) ?>"></td>
+                  <td><input type="text" name="due_date" value="<?= esc($edit_data['due_date'] ?? $invoice['due_date']) ?>"></td>
+                  <td><input type="text" name="invoice_subject" value="<?= esc($edit_data['invoice_subject'] ?? $invoice['invoice_subject']) ?>"></td>
+                  <td><input type="text" name="net_price" value="<?= esc($edit_data['net_price'] ?? $invoice['net_price']) ?>"></td>
+                  <td><input type="text" name="vat_rate" value="<?= esc($edit_data['vat_rate'] ?? $invoice['vat_rate']) ?>"></td>
+                  <td><input type="text" name="gross_price" value="<?= esc($edit_data['gross_price'] ?? $invoice['gross_price']) ?>"></td>
+                  <td>
+                    <a href="<?= site_url('invoices/xml/' . $invoice['id']) ?>" target="_blank">Zobacz XML</a>
+                  </td>
+                  <td>
+                    <input type="submit" id="save <?= $invoice['id'] ?>" style="display: none;" />
+                    <label for="save <?= $invoice['id'] ?>" title="zapisz zmiany" style="cursor: pointer; ">💾</label>
+                    <a href="<?= site_url('invoices') ?>" style="text-decoration: none;" title="odrzuć zmiany">✖️</a>
+                  </td>
+                </form>
+              <?php else: ?>
+                <td><?= esc($invoice['id']) ?></td>
+                <td><?= esc($invoice['client_name']) ?></td>
+                <td><?= esc($invoice['client_address']) ?></td>
+                <td><?= esc($invoice['client_nip']) ?></td>
+                <td><?= esc($invoice['invoice_number']) ?></td>
+                <td><?= esc($invoice['issue_date']) ?></td>
+                <td><?= esc($invoice['sale_date']) ?></td>
+                <td><?= esc($invoice['due_date']) ?> dni</td>
+                <td><?= esc($invoice['invoice_subject']) ?></td>
+                <td><?= esc($invoice['net_price']) ?> zł</td>
+                <td><?= esc($invoice['vat_rate']) ?> zł</td>
+                <td><?= esc($invoice['gross_price']) ?> zł</td>
+                <td>
+                  <a href="<?= site_url('invoices/xml/' . $invoice['id']) ?>" target="_blank">Zobacz XML</a>
+                </td>
+                <td style="text-align: center;">
+                  <a href="?edit=<?= $invoice['id'] ?>" style="text-decoration: none;" title="edytuj">✏️</a>
+                </td>
+              <?php endif; ?>
             </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+      <?php if (isset($edit_id) && isset($errors)): ?>
+        <div style="color:red;">
+          <ul>
+            <?php foreach ($errors as $field => $error): ?>
+              <li><strong><?= esc($field) ?>:</strong> <?= esc($error) ?></li>
             <?php endforeach; ?>
-          </tbody>
-        </table>
-        <h3><a href="<?= site_url('invoices/xml/') ?>" target="_blank">Zobacz wszystkie faktury w XML</a></h3>
+          </ul>
+        </div>
+      <?php endif; ?>
+      <h3><a href="<?= site_url('invoices/xml/') ?>" target="_blank">Zobacz wszystkie faktury w XML</a></h3>
     <?php endif; ?>
 
   </body>
