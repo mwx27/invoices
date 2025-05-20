@@ -93,6 +93,7 @@
             <th>Netto</th>
             <th>VAT</th>
             <th>Brutto</th>
+            <th>XML</th>
           </tr>
         </thead>
         <tbody>
@@ -109,6 +110,7 @@
               <td><?= esc($invoice['gross_price'])?> zł</td>
               <td><?= esc($invoice['vat_rate'])?> zł</td>
               <td><?= esc($invoice['net_price'])?> zł</td>
+              <td><a href="<?= site_url('invoices/xml/' . $invoice['id']) ?>" target="_blank">Zobacz XML</a></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

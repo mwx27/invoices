@@ -46,4 +46,24 @@ class InvoiceController extends BaseController
 
         return view('invoices', $data);
     }
+
+    public function getInvoiceAsXml($id)
+    {
+        $model = new \App\Models\InvoiceModel();
+        $invoice = $model->find($id);
+    
+        if (!$invoice) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Faktura o ID $id nie istnieje.");
+        }
+    
+        $xml = new \SimpleXMLElement('<invoice/>');
+        foreach ($invoice as $key => $value) {
+            $xml->addChild($key, htmlspecialchars($value));
+        }
+    
+        return $this->response
+            ->setContentType('application/xml')
+            ->setBody($xml->asXML());
+    }
+
 }
