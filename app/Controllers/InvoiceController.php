@@ -139,5 +139,29 @@ class InvoiceController extends BaseController
 
     }
 
+    public function deleteInvoice($id) {
+
+        helper('form');
+        $model = new InvoiceModel();
+        $invoice = $model->find($id);
+        
+        if (!$invoice) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Faktura o ID $id nie istnieje");
+        }
+
+        if ($model->delete($id)) {
+            return redirect()->to(site_url('invoices'))->with('delete_success', true);
+        } else {
+            $errors = $model->errors();
+            $invoices = $model->orderBy('created_at', 'DESC')->findAll();
+
+            return view('invoices', [
+                'invoices' => $invoices,
+                'errors' => $errors,
+            ]);
+        }
+
+    }
+
 
 }

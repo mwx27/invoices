@@ -98,7 +98,7 @@
             <th>VAT</th>
             <th>Brutto</th>
             <th>XML</th>
-            <th>Edycja</th>
+            <th style="min-width: 50px">Akcje</th>
           </tr>
         </thead>
         <tbody>
@@ -143,8 +143,14 @@
                 <td>
                   <a href="<?= site_url('invoices/xml/' . $invoice['id']) ?>" target="_blank">Zobacz XML</a>
                 </td>
-                <td style="text-align: center;">
-                  <a href="?edit=<?= $invoice['id'] ?>" style="text-decoration: none;" title="edytuj">✏️</a>
+                <td>
+                  <div style="display:flex; align-items: center; justify-content: space-between;">
+                    <a href="?edit=<?= $invoice['id'] ?>" style="text-decoration: none;" title="edytuj">✏️</a>
+                    <form action="<?= site_url('invoices/delete/' . $invoice['id']) ?>" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć tę fakturę?');">
+                      <button type="submit" style="display: none;" id=<?= "button-" . $invoice['id']?>></button>
+                      <label for=<?= "button-" . $invoice['id']?> style="cursor: pointer;" title="usuń">🗑️</label>
+                    </form>
+                  </div>
                 </td>
               <?php endif; ?>
             </tr>
@@ -158,6 +164,11 @@
               <li><strong><?= esc($field) ?>:</strong> <?= esc($error) ?></li>
             <?php endforeach; ?>
           </ul>
+        </div>
+      <?php endif; ?>
+      <?php if (session()->getFlashdata('delete_success')): ?>
+        <div style="color:green;">
+          <strong>Faktura została usunięta ✅</strong>
         </div>
       <?php endif; ?>
       <h3><a href="<?= site_url('invoices/xml/') ?>" target="_blank">Zobacz wszystkie faktury w XML</a></h3>
