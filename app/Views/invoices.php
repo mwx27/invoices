@@ -23,7 +23,8 @@
     <h1>Wystaw nową fakturę</h1>
     
     <form action="<?= current_url(); ?>" method="post">
-  
+      <?= csrf_field() ?>
+
       <label for="client_nip">NIP klienta:</label><br>
       <input type="text" id="client_nip" name="client_nip" value="<?= set_value('client_nip') ?>"><br><br>
 
@@ -106,6 +107,7 @@
             <tr>
               <?php if ((isset($edit_id) && $edit_id == $invoice['id']) || (isset($_GET['edit']) && $_GET['edit'] == $invoice['id'])): ?>
                 <form action="<?= site_url('invoices/update/' . $invoice['id']) ?>" method="post">
+                  <?= csrf_field() ?>
                   <td><?= esc($invoice['id']) ?></td>
                   <td><input type="text" name="client_name" value="<?= esc($edit_data['client_name'] ?? $invoice['client_name']) ?>"></td>
                   <td><input type="text" name="client_address" value="<?= esc($edit_data['client_address'] ?? $invoice['client_address']) ?>"></td>
@@ -147,6 +149,7 @@
                   <div style="display:flex; align-items: center; justify-content: space-between;">
                     <a href="?edit=<?= $invoice['id'] ?>" style="text-decoration: none;" title="edytuj">✏️</a>
                     <form action="<?= site_url('invoices/delete/' . $invoice['id']) ?>" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć tę fakturę?');">
+                      <?= csrf_field() ?>
                       <button type="submit" style="display: none;" id=<?= "button-" . $invoice['id']?>></button>
                       <label for=<?= "button-" . $invoice['id']?> style="cursor: pointer;" title="usuń">🗑️</label>
                     </form>
@@ -167,7 +170,7 @@
         </div>
       <?php endif; ?>
       <?php if (isset($delete_success) && $delete_success): ?>
-        <p style="color:green;">Faktura została usunięta z bazy ✅</p>
+        <p style="color:green;">✅ Faktura została usunięta z bazy!</p>
       <?php endif; ?>
       <?php if (isset($update_success) && $update_success): ?>
         <p style="color:green;">✅ Faktura została zaktualizowana w bazie!</p>
