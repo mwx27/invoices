@@ -1,9 +1,12 @@
 # Invoices App (CodeIgniter 4)
 
-A simple web application for creating, validating, and listing invoices, built with CodeIgniter 4.
+A simple web application for creating, updating, and listing invoices, built with CodeIgniter 4.
 
 ## Features
 - Add new invoices with client and invoice details
+- Update/delete existing invoices directly from the list view
+- View individual invoices as XML
+- View all invoices as XML
 - Server-side validation for all invoice fields
 - List all saved invoices in a table
 - Success and error feedback for form submissions
@@ -18,9 +21,9 @@ A simple web application for creating, validating, and listing invoices, built w
 - Data sprzedaży (sale_date)
 - Termin płatności (due_date: 7, 14, or 21 days)
 - Przedmiot faktury (invoice_subject)
-- Cena brutto (gross_price)
-- Stawka VAT (vat_rate)
 - Cena netto (net_price)
+- Stawka VAT (vat_rate)
+- Cena brutto (gross_price)
 
 ## Getting Started
 
