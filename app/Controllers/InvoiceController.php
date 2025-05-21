@@ -32,14 +32,20 @@ class InvoiceController extends BaseController
             ]);
 
             if($model->insert($postData)) {
-                return redirect()->to(current_url())->with('success', true);
+                return redirect()->to(current_url())->with('create_success', true);
             } else {
                 $data['errors'] = $model->errors();
             }
         }
 
-        if (session()->getFlashdata('success')) {
-            $data['success'] = true;
+        if (session()->getFlashdata('create_success')) {
+            $data['create_success'] = true;
+        }
+        if (session()->getFlashdata('update_success')) {
+            $data['update_success'] = true;
+        }
+        if (session()->getFlashdata('delete_success')) {
+            $data['delete_success'] = true;
         }
 
         $data['invoices'] = $model->orderBy('created_at', 'DESC')->findAll();
@@ -124,7 +130,7 @@ class InvoiceController extends BaseController
         $model->setValidationRule('invoice_number', 'required|is_unique[invoices.invoice_number,id,' . $id . ']');
 
         if ($model->update($id, $postData)) {
-            return redirect()->to(site_url('invoices'))->with('success', true);
+            return redirect()->to(site_url('invoices'))->with('update_success', true);
         } else {
             $errors = $model->errors();
             $invoices = $model->orderBy('created_at', 'DESC')->findAll();

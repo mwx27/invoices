@@ -65,7 +65,7 @@
       <button type="submit">Dalej</button>
     </form>
 
-    <?php if (isset($success) && $success): ?>
+    <?php if (isset($create_success) && $create_success): ?>
       <p style="color:green;">✅ Faktura została zapisana do bazy!</p>
     <?php endif; ?>
 
@@ -166,10 +166,11 @@
           </ul>
         </div>
       <?php endif; ?>
-      <?php if (session()->getFlashdata('delete_success')): ?>
-        <div style="color:green;">
-          <strong>Faktura została usunięta ✅</strong>
-        </div>
+      <?php if (isset($delete_success) && $delete_success): ?>
+        <p style="color:green;">Faktura została usunięta z bazy ✅</p>
+      <?php endif; ?>
+      <?php if (isset($update_success) && $update_success): ?>
+        <p style="color:green;">✅ Faktura została zaktualizowana w bazie!</p>
       <?php endif; ?>
       <h3><a href="<?= site_url('invoices/xml/') ?>" target="_blank">Zobacz wszystkie faktury w XML</a></h3>
     <?php endif; ?>
