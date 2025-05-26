@@ -79,9 +79,9 @@ The `invoices` table includes:
 - sale_date (date)
 - due_date (int)
 - invoice_subject (varchar)
-- gross_price (decimal)
-- vat_rate (decimal)
 - net_price (decimal)
+- vat_rate (decimal)
+- gross_price (decimal)
 - created_at, updated_at (datetime)
 
 ## Development

@@ -26,9 +26,9 @@ class InvoiceController extends BaseController
                 'sale_date',
                 'due_date',
                 'invoice_subject',
-                'gross_price',
-                'vat_rate',
                 'net_price',
+                'vat_rate',
+                'gross_price',
             ]);
 
             if($model->insert($postData)) {
@@ -72,9 +72,9 @@ class InvoiceController extends BaseController
         $xml->addChild('sale_date', esc($invoice['sale_date']));
         $xml->addChild('due_date', esc($invoice['due_date']));
         $xml->addChild('invoice_subject', esc($invoice['invoice_subject']));
-        $xml->addChild('gross_price', esc($invoice['gross_price']));
-        $xml->addChild('vat_rate', esc($invoice['vat_rate']));
         $xml->addChild('net_price', esc($invoice['net_price']));
+        $xml->addChild('vat_rate', esc($invoice['vat_rate']));
+        $xml->addChild('gross_price', esc($invoice['gross_price']));
 
     
         return $this->response
@@ -122,9 +122,9 @@ class InvoiceController extends BaseController
             'sale_date',
             'due_date',
             'invoice_subject',
-            'gross_price',
-            'vat_rate',
             'net_price',
+            'vat_rate',
+            'gross_price',
         ]);
 
         $model->setValidationRule('invoice_number', 'required|is_unique[invoices.invoice_number,id,' . $id . ']');

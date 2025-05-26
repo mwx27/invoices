@@ -53,15 +53,15 @@
       
       <label for="invoice_subject">Przedmiot faktury:</label><br>
       <input type="text" id="invoice_subject" name="invoice_subject" value="<?= set_value('invoice_subject') ?>"><br><br>
-
-      <label for="gross_price">Cena brutto:</label><br>
-      <input type="text" id="gross_price" name="gross_price" value="<?= set_value('gross_price') ?>"><br><br>
+      
+      <label for="net_price">Cena netto:</label><br>
+      <input type="text" id="net_price" name="net_price" value="<?= set_value('net_price') ?>"><br><br>
       
       <label for="vat_rate">Stawka VAT:</label><br>
       <input type="text" id="vat_rate" name="vat_rate" value="<?= set_value('vat_rate') ?>"><br><br>
-
-      <label for="net_price">Cena netto:</label><br>
-      <input type="text" id="net_price" name="net_price" value="<?= set_value('net_price') ?>"><br><br>
+      
+      <label for="gross_price">Cena brutto:</label><br>
+      <input type="text" id="gross_price" name="gross_price" value="<?= set_value('gross_price') ?>" readonly><br><br>
 
       <button type="submit">Dalej</button>
     </form>
@@ -178,5 +178,25 @@
       <h3><a href="<?= site_url('invoices/xml/') ?>" target="_blank">Zobacz wszystkie faktury w XML</a></h3>
     <?php endif; ?>
 
+    <script>
+      const netInput = document.getElementById('net_price');
+      const vatInput = document.getElementById('vat_rate');
+      const grossInput = document.getElementById('gross_price');
+      function calculateGrossPrice() {
+        const netPrice = parseFloat(netInput.value);
+        const vatRate = parseFloat(vatInput.value);
+
+        if (!isNaN(netPrice) && !isNaN(vatRate)) {
+          const grossPrice = netPrice * (1 + vatRate / 100);
+          grossInput.value = grossPrice.toFixed(2);
+        } else {
+          grossInput.value = '';
+        }
+    
+        grossInput.value = grossPrice.toFixed(2);
+      }
+      netInput.addEventListener('input', calculateGrossPrice);
+      vatInput.addEventListener('input', calculateGrossPrice);
+    </script>
   </body>
 </html>

@@ -18,9 +18,9 @@ class CreateInvoices extends Migration
             'sale_date' => ['type' => 'DATE'],
             'due_date' => ['type' => 'INT'],
             'invoice_subject' => ['type' => 'VARCHAR', 'constraint' => 255],
-            'gross_price' => ['type' => 'DECIMAL', 'constraint' => '10,2'],
-            'vat_rate' => ['type' => 'DECIMAL', 'constraint' => '4,2'],
             'net_price' => ['type' => 'DECIMAL', 'constraint' => '10,2'],
+            'vat_rate' => ['type' => 'DECIMAL', 'constraint' => '4,2'],
+            'gross_price' => ['type' => 'DECIMAL', 'constraint' => '10,2'],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
